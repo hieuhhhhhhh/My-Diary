@@ -5,38 +5,31 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import android.widget.Toast
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.finalproject.databinding.ActivityLoginBinding
 
 class LoginAct : AppCompatActivity() {
 
+    private lateinit var binding: ActivityLoginBinding
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-    private lateinit var loginButton: Button
-    private lateinit var createAccountButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login) // Make sure to use your correct layout name
+
+        // Initialize ViewBinding
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance()
 
-        // Initialize UI components
-        emailEditText = findViewById(R.id.editTextText)
-        passwordEditText = findViewById(R.id.editTextTextPassword)
-        loginButton = findViewById(R.id.button3)
-        createAccountButton = findViewById(R.id.button)
-
         // Set click listener for login button
-        loginButton.setOnClickListener {
+        binding.button3.setOnClickListener {
             loginUser()
         }
 
         // Set click listener for create account button
-        createAccountButton.setOnClickListener {
+        binding.button.setOnClickListener {
             // Navigate to the Signup Activity (if needed)
             val intent = Intent(this@LoginAct, SignUpAct::class.java)
             startActivity(intent)
@@ -45,8 +38,8 @@ class LoginAct : AppCompatActivity() {
 
     private fun loginUser() {
         // Get email and password from EditText
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        val email = binding.editTextText.text.toString()
+        val password = binding.editTextTextPassword.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
             // Show error if email or password is empty
