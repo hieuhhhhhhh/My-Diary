@@ -5,5 +5,8 @@
     <string name="hello_search">Hello From Search</string>
     <string name="hello_home">Hello From Home</string>
     <string name="hello_profile">Hello From Profile</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
 
 </resources>
