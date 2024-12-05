@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -35,5 +37,13 @@ class MainActivity : BaseActivity() {
     private fun onButton2Clicked() {
         // Default implementation - you can override this in the child classes
         println("Btn 1 clicked!")
+        selectFrag(HomeFrag())
+    }
+
+    private fun selectFrag(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
     }
 }
