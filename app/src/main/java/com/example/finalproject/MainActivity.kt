@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         initBottomNavigation()
 
-        startActivity(Intent(this, SignUpAct::class.java))
+        startActivity(Intent(this, LoginAct::class.java))
     }
 
     private fun selectFrag(fragment: Fragment) {

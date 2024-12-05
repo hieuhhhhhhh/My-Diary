@@ -1,5 +1,6 @@
 package com.example.finalproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
@@ -77,7 +78,8 @@ class SignUpAct : AppCompatActivity() {
                     // Sign-up successful
                     Toast.makeText(this, "Account created successfully!", Toast.LENGTH_LONG).show()
                     println("Account created successfully!")
-                    finish()
+                    finishAffinity()
+                    startActivity(Intent(this, MainActivity::class.java))
 
                 } else {
                     // Sign-up failed
