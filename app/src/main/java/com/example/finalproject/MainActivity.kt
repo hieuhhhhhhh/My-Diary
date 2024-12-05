@@ -2,13 +2,13 @@ package com.example.finalproject
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.finalproject.databinding.ActivityMainBinding
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,31 +19,43 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        // Set up insets using the binding object
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize the button
-        binding.button2.setOnClickListener {
-            onButton2Clicked()
-        }
-
-        initBtn()
-    }
-
-    // Method that will be called when the button is clicked
-    private fun onButton2Clicked() {
-        // Default implementation - you can override this in the child classes
-        println("Btn 1 clicked!")
-        selectFrag(HomeFrag())
+        initBottomNavigation()
     }
 
     private fun selectFrag(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
+    }
+
+    private fun initBottomNavigation() {
+        // Access the BottomNavigationView through the binding object
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    selectFrag(HomeFrag())
+                    true
+                }
+
+                R.id.search -> {
+                    selectFrag(SearchFrag())
+                    true
+                }
+
+                R.id.profile -> {
+                    selectFrag(ProfileFrag()) // Assuming you want ProfileFrag here
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 }

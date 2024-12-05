@@ -2,5 +2,5 @@ package com.example.finalproject
 
 import androidx.fragment.app.Fragment
 
-class HomeFrag : Fragment(R.layout.fragment_home)
+class ProfileFrag : Fragment(R.layout.fragment_profile)
 

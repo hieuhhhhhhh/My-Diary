@@ -14,9 +14,13 @@
 
     <!-- Button to Switch Fragments -->
 
-    <include
-        android:id="@+id/baseLayout"
-        layout="@layout/acti_base" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/textView"
