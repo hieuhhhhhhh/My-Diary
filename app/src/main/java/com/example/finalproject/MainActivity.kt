@@ -2,6 +2,7 @@ package com.example.finalproject
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,12 +28,35 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // init the bottom nav and home frag
         initBottomNavigation()
+        selectFrag(HomeFrag())
 
+        // start app by login page
         startActivity(Intent(this, LoginAct::class.java))
+
     }
 
+    override fun onResume() {
+        super.onResume()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.bottomNav.selectedItemId == R.id.home) {
+                    if (isEnabled) {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                } else {
+                    binding.bottomNav.selectedItemId = R.id.home
+                    selectFrag(HomeFrag())
+                }
+            }
+        })
+    }
+
+
     private fun selectFrag(fragment: Fragment) {
+        supportFragmentManager.popBackStackImmediate()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
@@ -61,4 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
