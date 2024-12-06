@@ -92,6 +92,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.draft -> {
+                    selectFrag(DraftFrag()) // Assuming you want ProfileFrag here
+                    true
+                }
+
                 else -> false
             }
         }

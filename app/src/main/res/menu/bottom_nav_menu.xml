@@ -16,4 +16,8 @@
         android:id="@+id/profile"
         android:icon="@drawable/person_48px"
         android:title="@string/profile" />
+    <item
+        android:id="@+id/draft"
+        android:icon="@drawable/science_48px"
+        android:title="@string/draft" />
 </menu>
