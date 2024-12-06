@@ -5,6 +5,10 @@
         android:icon="@drawable/home_48px"
         android:title="@string/home" />
     <item
+        android:id="@+id/add"
+        android:icon="@drawable/stylus_48px"
+        android:title="@string/add" />
+    <item
         android:id="@+id/search"
         android:icon="@drawable/search_48px"
         android:title="@string/search" />

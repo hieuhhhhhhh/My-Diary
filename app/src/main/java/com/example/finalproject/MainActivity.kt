@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.finalproject.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,8 +33,13 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
         selectFrag(HomeFrag())
 
-        // start app by login page
-        startActivity(Intent(this, LoginAct::class.java))
+        // Check if user is already logged in
+        val firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser == null) {
+            // User is not logged in, start LoginAct
+            startActivity(Intent(this, LoginAct::class.java))
+            finish() // Close MainActivity so user cannot navigate back without logging in
+        }
 
     }
 
@@ -68,6 +74,11 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.home -> {
                     selectFrag(HomeFrag())
+                    true
+                }
+
+                R.id.add -> {
+                    selectFrag(AddFrag())
                     true
                 }
 
