@@ -31,7 +31,7 @@ class AddFrag : Fragment(R.layout.fragment_add) {
         auth = FirebaseAuth.getInstance()
 
         // Find views by ID
-        editText = view.findViewById(R.id.editTextTextMultiLine)
+        editText = view.findViewById(R.id.story_input)
         button = view.findViewById(R.id.button2)
 
         // Set button click listener

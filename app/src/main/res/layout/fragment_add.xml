@@ -7,7 +7,9 @@
     tools:context=".AddFrag">
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:textColor="@color/foreground_color"
+        android:textColorHint="@color/hint_color"
+        android:id="@+id/story_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -16,8 +18,8 @@
         android:background="@drawable/bg_add"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Write a Story"
-        android:inputType="textMultiLine"
+        android:hint="@string/write_a_story"
+        android:inputType="textMultiLine|textCapSentences"
         android:maxLines="10"
         android:minLines="5"
         android:padding="10dp"
@@ -34,6 +36,19 @@
         android:text="Write On Firebase"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/tittleInput"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="text|textCapSentences"
+        app:layout_constraintBottom_toTopOf="@+id/story_input"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
