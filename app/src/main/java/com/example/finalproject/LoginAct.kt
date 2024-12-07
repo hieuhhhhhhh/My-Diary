@@ -54,6 +54,9 @@ class LoginAct : AppCompatActivity() {
                     // Sign-in successful, navigate to the home screen or main activity
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
+                    // Navigate back to the Home activity
+                    startActivity(Intent(this, MainActivity::class.java))
+
                     finish() // Escape activity
                 } else {
                     // Handle login failure
