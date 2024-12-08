@@ -12,17 +12,17 @@ import com.google.firebase.firestore.Query
 class HomeFrag : Fragment(R.layout.fragment_home) {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var storyAdapter: StoryAdapter
+    private lateinit var storyGroupAdapter: StoryGroupAdapter
     private val firestore = FirebaseFirestore.getInstance()
-    private val stories = mutableListOf<Story>()
+    private val storyGroups = mutableListOf<StoryGroup>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.recyclerViewStories)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        storyAdapter = StoryAdapter(stories)
-        recyclerView.adapter = storyAdapter
+        storyGroupAdapter = StoryGroupAdapter(storyGroups)
+        recyclerView.adapter = storyGroupAdapter
 
         fetchStories()
     }
@@ -38,7 +38,7 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
             )  // Order by timestamp in descending order
             .get()
             .addOnSuccessListener { querySnapshot ->
-                stories.clear()
+                val stories = mutableListOf<Story>()
                 for (document in querySnapshot.documents) {
                     val story = document.toObject(Story::class.java)
                     if (story != null && story.timestamp is com.google.firebase.Timestamp) {
@@ -46,8 +46,10 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
                         val date = timestamp.toDate()
 
                         // Use SimpleDateFormat to format the date and time
-                        val dateFormat =
-                            java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                        val dateFormat = java.text.SimpleDateFormat(
+                            "EEE, MMM dd, yyyy",
+                            java.util.Locale.getDefault()
+                        )
 
                         val timeFormat = java.text.SimpleDateFormat("hh:mm a", java.util.Locale.US)
 
@@ -57,7 +59,8 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
                         stories.add(story)
                     }
                 }
-                storyAdapter.notifyDataSetChanged()
+
+                groupStoriesByDate(stories)
             }
             .addOnFailureListener { e ->
                 // Handle the error (e.g., log it)
@@ -65,4 +68,18 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
             }
     }
 
+    // Group the stories by date and notify the adapter
+    private fun groupStoriesByDate(stories: List<Story>) {
+        val grouped = mutableListOf<StoryGroup>()
+
+        // Group stories by their localDate
+        stories.groupBy { it.localDate }.forEach { (date, storiesForDate) ->
+            val storyGroup = StoryGroup(date, storiesForDate)
+            grouped.add(storyGroup)
+        }
+
+        storyGroups.clear()
+        storyGroups.addAll(grouped)
+        storyGroupAdapter.notifyDataSetChanged()
+    }
 }
