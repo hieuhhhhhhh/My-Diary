@@ -9,11 +9,12 @@
         android:icon="@drawable/stylus_48px"
         android:title="@string/add" />
     <item
+        android:id="@+id/weather"
+        android:icon="@drawable/partly_cloudy_day_48px"
+        android:title="@string/weather" />
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/person_48px"
         android:title="@string/profile" />
-    <item
-        android:id="@+id/draft"
-        android:icon="@drawable/science_48px"
-        android:title="@string/draft" />
+
 </menu>

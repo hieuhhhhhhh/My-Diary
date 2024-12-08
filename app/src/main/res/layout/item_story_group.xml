@@ -6,14 +6,32 @@
     android:gravity="center_horizontal"
     android:layout_marginTop="10dp"> <!-- Aligns all children horizontally to the center -->
 
-    <!-- TextView for the date of the story group -->
-    <TextView
-        android:id="@+id/dateTextView"
+    <!-- Horizontal LinearLayout for the date and icon -->
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:textSize="20sp"
-        android:gravity="center" /> <!-- Centers the text inside the TextView -->
+        android:gravity="center"> <!-- Aligns the text and icon horizontally in the center -->
+
+        <!-- TextView for the date of the story group -->
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="20sp"
+            android:gravity="center" /> <!-- Centers the text inside the TextView -->
+
+        <!-- ImageView for the clickable icon -->
+        <ImageView
+            android:id="@+id/expandIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Expand icon"
+            android:src="@drawable/info_48px" /> <!-- Space between the text and icon -->
+
+    </LinearLayout>
 
     <!-- RecyclerView to display a list of stories for this date -->
     <androidx.recyclerview.widget.RecyclerView
