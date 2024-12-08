@@ -9,10 +9,6 @@
         android:icon="@drawable/stylus_48px"
         android:title="@string/add" />
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search_48px"
-        android:title="@string/search" />
-    <item
         android:id="@+id/profile"
         android:icon="@drawable/person_48px"
         android:title="@string/profile" />

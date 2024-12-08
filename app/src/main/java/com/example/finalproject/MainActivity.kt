@@ -19,9 +19,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // init the bottom nav and home frag
+        // init the bottom nav and entry frag
         initBottomNavigation()
-        selectFrag(HomeFrag())
+        selectFrag(AddFrag())
+        binding.bottomNav.selectedItemId = R.id.add
 
         // Check if user is already logged in
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -72,10 +73,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.search -> {
-                    selectFrag(SearchFrag())
-                    true
-                }
 
                 R.id.profile -> {
                     selectFrag(ProfileFrag()) // Assuming you want ProfileFrag here
