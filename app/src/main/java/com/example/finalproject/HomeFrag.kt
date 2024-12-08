@@ -41,7 +41,19 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
                 stories.clear()
                 for (document in querySnapshot.documents) {
                     val story = document.toObject(Story::class.java)
-                    if (story != null) {
+                    if (story != null && story.timestamp is com.google.firebase.Timestamp) {
+                        val timestamp = story.timestamp
+                        val date = timestamp.toDate()
+
+                        // Use SimpleDateFormat to format the date and time
+                        val dateFormat =
+                            java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+
+                        val timeFormat = java.text.SimpleDateFormat("hh:mm a", java.util.Locale.US)
+
+                        story.localDate = dateFormat.format(date)
+                        story.localTime = timeFormat.format(date)
+
                         stories.add(story)
                     }
                 }
@@ -52,4 +64,5 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
                 println("Error: " + e.message)
             }
     }
+
 }

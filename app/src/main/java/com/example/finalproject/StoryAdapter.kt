@@ -12,6 +12,7 @@ class StoryAdapter(private val stories: List<Story>) :
     inner class StoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleTextView: TextView = view.findViewById(R.id.storyTitle)
         val storyTextView: TextView = view.findViewById(R.id.storyContent)
+        val timeTextView: TextView = view.findViewById(R.id.timeView) // Added reference to timeView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
@@ -24,6 +25,7 @@ class StoryAdapter(private val stories: List<Story>) :
         val story = stories[position]
         holder.titleTextView.text = story.title
         holder.storyTextView.text = story.story
+        holder.timeTextView.text = story.localTime // Set the localTime to timeView
     }
 
     override fun getItemCount(): Int = stories.size
