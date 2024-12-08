@@ -102,23 +102,22 @@ class AddFrag : Fragment(R.layout.fragment_add) {
 
     // Function to get title from the first words of the story (max 20 characters)
     private fun getTitleFromStory(storyText: String): String {
-        val words = storyText.split(" ") // Split the story into words
-        var title = ""
-        var totalLength = 0
-
-        // Add words to title until the total length exceeds 20 characters
-        for (word in words) {
-            if (totalLength + word.length + 1 > 20) break // Stop if adding the word exceeds 20 characters
-            if (title.isNotEmpty()) title += " " // Add space before the next word
-            title += word
-            totalLength += word.length + 1 // Add the length of the word plus space
+        if (storyText.length <= 27) {
+            return storyText
         }
 
-        // If the title is still longer than 20 characters, truncate with "..."
-        return if (title.length > 20) {
-            title.substring(0, 17) + "..." // Truncate and add "..."
+        // Find the last space within the first 20 characters
+        val truncatedText = storyText.substring(0, 27)
+        val lastSpaceIndex = truncatedText.lastIndexOf(' ')
+
+        return if (lastSpaceIndex != -1) {
+            // Truncate at the last space and add "..."
+            storyText.substring(0, lastSpaceIndex) + "..."
         } else {
-            title
+            // If no space is found within the first 20 characters, just truncate and add "..."
+            storyText.substring(0, 27) + "..."
         }
     }
+
+
 }

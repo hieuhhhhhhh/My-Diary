@@ -73,8 +73,9 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
         val grouped = mutableListOf<StoryGroup>()
 
         // Group stories by their localDate
-        stories.groupBy { it.localDate }.forEach { (date, storiesForDate) ->
-            val storyGroup = StoryGroup(date, storiesForDate)
+        stories.groupBy { it.localDate }.forEach { (localDate, storiesForDate) ->
+            // Here, we create the StoryGroup using both localDate string and the Date object
+            val storyGroup = StoryGroup(localDate, storiesForDate)
             grouped.add(storyGroup)
         }
 
@@ -82,4 +83,5 @@ class HomeFrag : Fragment(R.layout.fragment_home) {
         storyGroups.addAll(grouped)
         storyGroupAdapter.notifyDataSetChanged()
     }
+
 }

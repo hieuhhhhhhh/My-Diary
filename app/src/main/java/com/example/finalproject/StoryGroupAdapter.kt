@@ -26,7 +26,7 @@ class StoryGroupAdapter(private val storyGroups: List<StoryGroup>) :
     // Called to bind the data to the ViewHolder
     override fun onBindViewHolder(holder: StoryGroupViewHolder, position: Int) {
         val storyGroup = storyGroups[position]
-        holder.dateTextView.text = storyGroup.date
+        holder.dateTextView.text = storyGroup.localDate
 
         // Set the inner RecyclerView adapter for stories
         val storyAdapter = StoryAdapter(storyGroup.stories)
