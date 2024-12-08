@@ -64,7 +64,7 @@ class DraftFrag : Fragment(R.layout.fragment_draft) {
         }
 
         // Fetch drafts from Firestore where the userId matches the current user's ID
-        db.collection("test1")
+        db.collection("stories")
             .whereEqualTo("userId", currentUser.uid)
             .get()
             .addOnCompleteListener { task ->
@@ -92,7 +92,6 @@ class DraftFrag : Fragment(R.layout.fragment_draft) {
     data class Story(
         val story: String = "",
         val userId: String = "",
-        val timestamp: Long = 0L
     )
 
     // RecyclerView Adapter

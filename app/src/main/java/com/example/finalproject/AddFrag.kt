@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AddFrag : Fragment(R.layout.fragment_add) {
@@ -52,10 +51,8 @@ class AddFrag : Fragment(R.layout.fragment_add) {
             }
 
             // If title is empty, generate a title from the first words of the story
-            val finalTitle = if (titleText.isEmpty()) {
+            val finalTitle = titleText.ifEmpty {
                 getTitleFromStory(storyText)
-            } else {
-                titleText
             }
 
             val currentUser = auth.currentUser
@@ -70,17 +67,16 @@ class AddFrag : Fragment(R.layout.fragment_add) {
 
             val userId = currentUser.uid
 
-            // Create a map to hold the data, including title, story, and userId
-            val storyData = hashMapOf(
-                "title" to finalTitle,
-                "story" to storyText,
-                "userId" to userId,
-                "timestamp" to FieldValue.serverTimestamp() // Add timestamp here
+            // Create a Story object
+            val story = Story(
+                title = finalTitle,
+                story = storyText,
+                userId = userId
             )
 
-            // Add the data to Firestore in the collection "test1"
-            db.collection("test1")
-                .add(storyData)
+            // Add the Story object to Firestore
+            db.collection("stories")
+                .add(story)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(
