@@ -29,7 +29,9 @@
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:contentDescription="Expand icon"
-            android:src="@drawable/info_48px" /> <!-- Space between the text and icon -->
+            android:src="@drawable/info_48px"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 

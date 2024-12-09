@@ -112,7 +112,10 @@ class WeatherActi : AppCompatActivity() {
 
     private fun displayWeatherData(responseString: String): String {
         val jsonResponse = JSONObject(responseString)
-        val description = jsonResponse.getString("description")
+        val description = jsonResponse.optString(
+            "description",
+            "No description available"
+        ) // Default value if key is missing
 
         val weatherInfo = StringBuilder()
         weatherInfo.append("Description: $description\n\n")
