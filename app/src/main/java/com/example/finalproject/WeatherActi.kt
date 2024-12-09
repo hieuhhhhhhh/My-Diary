@@ -16,11 +16,10 @@ class WeatherActi : AppCompatActivity() {
 
     private lateinit var textView: TextView
     private lateinit var button6: Button
-    private lateinit var returnButton: ImageButton // Reference for the return button
+    private lateinit var returnButton: ImageButton
     private lateinit var locationHelper: LocationHelper
     private lateinit var weatherInfoTextView: TextView
 
-    // Your Visual Crossing API key
     private val apiKey = "A3WMALQVCSAEPZESUFHWVT34Y&contentType=json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,43 +28,43 @@ class WeatherActi : AppCompatActivity() {
 
         // Initialize UI elements
         textView = findViewById(R.id.textView)
-        button6 = findViewById(R.id.button6)  // Reference to the Refresh button
-        returnButton = findViewById(R.id.returnButton) // Reference to the return button
-        weatherInfoTextView = findViewById(R.id.weatherInfoTextView)  // Weather info text view
+        button6 = findViewById(R.id.button6)
+        returnButton = findViewById(R.id.returnButton)
+        weatherInfoTextView = findViewById(R.id.weatherInfoTextView)
         locationHelper = LocationHelper(this)
+
+        // Get the passed date (if any), default to current date
+        val passedDate: Date? = intent.getSerializableExtra("date") as Date?
+        val currentDate = passedDate ?: Date()  // If no date is passed, use the current date
+
+        // Format the date to string
+        val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentDate)
 
         locationHelper.getLocation { result, success ->
             if (success) {
-                // On success, display the location and fetch the weather
                 textView.text = "Location: $result"
-                button6.visibility = Button.GONE  // Hide button on success
+                button6.visibility = Button.GONE
 
-                // Extract latitude and longitude from the result (assuming result is in "lat, long" format)
                 val coordinates = result.split(",")
                 if (coordinates.size == 2) {
                     val latitude = coordinates[0].toDouble()
                     val longitude = coordinates[1].toDouble()
 
-                    // Fetch weather data
-                    val currentDate =
-                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                    fetchWeatherData(latitude, longitude, currentDate)
+                    // Fetch weather data with the formatted date
+                    fetchWeatherData(latitude, longitude, formattedDate)
                 }
             } else {
-                // Failure case
                 textView.text = "Error: $result"
-                button6.visibility = Button.VISIBLE  // Show button on failure
+                button6.visibility = Button.VISIBLE
 
-                // Set up click listener to reload the activity on failure
                 button6.setOnClickListener {
-                    recreate()  // This will recreate the activity and try the location request again
+                    recreate()
                 }
             }
         }
 
-        // Set up return button to finish the activity when clicked
         returnButton.setOnClickListener {
-            finish() // Close the activity and return to the previous one
+            finish()
         }
     }
 
@@ -78,14 +77,12 @@ class WeatherActi : AppCompatActivity() {
             .url(url)
             .build()
 
-        // Perform the request asynchronously
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     response.body?.let { responseBody ->
                         val responseString = responseBody.string()
 
-                        // Log the full JSON response
                         runOnUiThread {
                             weatherInfoTextView.text = displayWeatherData(responseString)
                         }
@@ -96,8 +93,7 @@ class WeatherActi : AppCompatActivity() {
                             this@WeatherActi,
                             "Failed to fetch weather data",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
                 }
             }
@@ -115,22 +111,15 @@ class WeatherActi : AppCompatActivity() {
     }
 
     private fun displayWeatherData(responseString: String): String {
-        // Parse the JSON response
         val jsonResponse = JSONObject(responseString)
-
-        // Extract the main weather information
         val description = jsonResponse.getString("description")
 
-        // Initialize a string builder to construct the weather information string
         val weatherInfo = StringBuilder()
-
-        // Add basic information
         weatherInfo.append("Description: $description\n\n")
 
-        // Extract weather data for the day
         val days = jsonResponse.getJSONArray("days")
         if (days.length() > 0) {
-            val dayData = days.getJSONObject(0)  // Assuming we only want the data for the first day
+            val dayData = days.getJSONObject(0)
 
             val date = dayData.getString("datetime")
             val tempMax = dayData.getDouble("tempmax")
@@ -143,7 +132,6 @@ class WeatherActi : AppCompatActivity() {
             val sunrise = dayData.getString("sunrise")
             val sunset = dayData.getString("sunset")
 
-            // Add the day-specific weather information to the string
             weatherInfo.append("Weather for $date:\n")
             weatherInfo.append("Max Temp: $tempMax°F\n")
             weatherInfo.append("Min Temp: $tempMin°F\n")
@@ -156,43 +144,6 @@ class WeatherActi : AppCompatActivity() {
             weatherInfo.append("Sunset: $sunset")
         }
 
-        // Return the complete weather information as a single string
         return weatherInfo.toString()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        locationHelper.onRequestPermissionsResult(requestCode, grantResults) { result, success ->
-            if (success) {
-                // On success, display the location and fetch the weather
-                textView.text = "Location: $result"
-                button6.visibility = Button.GONE  // Hide button on success
-
-                // Extract latitude and longitude from the result (assuming result is in "lat, long" format)
-                val coordinates = result.split(",")
-                if (coordinates.size == 2) {
-                    val latitude = coordinates[0].toDouble()
-                    val longitude = coordinates[1].toDouble()
-
-                    // Fetch weather data
-                    val currentDate =
-                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                    fetchWeatherData(latitude, longitude, currentDate)
-                }
-            } else {
-                // Failure case
-                textView.text = "Error: $result"
-                button6.visibility = Button.VISIBLE  // Show button on failure
-
-                // Set up click listener to reload the activity on failure
-                button6.setOnClickListener {
-                    recreate()  // This will recreate the activity and try the location request again
-                }
-            }
-        }
     }
 }
