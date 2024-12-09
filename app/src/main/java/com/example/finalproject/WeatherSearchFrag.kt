@@ -30,14 +30,6 @@ class WeatherSearchFrag : Fragment(R.layout.fragment_weather_search) {
             startActivity(intent)
         }
 
-        // Listener on btn 7:
-        val button7 = view.findViewById<Button>(R.id.button7)
-
-        button7.setOnClickListener {
-            // Start DraftActi activity
-            startActivity(Intent(requireContext(), DraftActi::class.java))
-        }
-
         // Initialize the TextView to show selected date
         selectedDateTextView = view.findViewById(R.id.text_selected_date)
 
