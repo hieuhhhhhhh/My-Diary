@@ -46,7 +46,6 @@ class StoryGroupAdapter(private val storyGroups: List<StoryGroup>) :
             val intent = Intent(context, WeatherActi::class.java)
 
             // Pass the date to the WeatherActi
-            println("Date: " + storyGroup.date)
             intent.putExtra("date", storyGroup.date) // Convert Date to long (timestamp)
             context.startActivity(intent)
         }

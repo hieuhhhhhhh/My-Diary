@@ -6,35 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".WeatherSearchFrag">
 
-    <!-- Button to trigger Date Picker -->
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="156dp"
-        android:text="Go to Acti"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!-- Button to show Date Picker -->
     <Button
         android:id="@+id/button_date_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick Date"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/button4"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- TextView to display the selected date -->
-    <TextView
-        android:id="@+id/text_selected_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No date selected"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/button_date_picker"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="36dp"
+        android:text="Select a date to view weather in your location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
