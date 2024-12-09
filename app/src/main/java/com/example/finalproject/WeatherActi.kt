@@ -120,33 +120,42 @@ class WeatherActi : AppCompatActivity() {
         val weatherInfo = StringBuilder()
         weatherInfo.append("Description: $description\n\n")
 
-        val days = jsonResponse.getJSONArray("days")
-        if (days.length() > 0) {
-            val dayData = days.getJSONObject(0)
+        val days = jsonResponse.optJSONArray("days")
+            ?: return weatherInfo.append("No daily weather data available.").toString()
 
-            val date = dayData.getString("datetime")
-            val tempMax = dayData.getDouble("tempmax")
-            val tempMin = dayData.getDouble("tempmin")
-            val currentTemp = dayData.getDouble("temp")
-            val humidity = dayData.getDouble("humidity")
-            val windSpeed = dayData.getDouble("windspeed")
-            val pressure = dayData.getDouble("pressure")
-            val conditions = dayData.getString("conditions")
-            val sunrise = dayData.getString("sunrise")
-            val sunset = dayData.getString("sunset")
+        if (days.length() > 0) {
+            val dayData =
+                days.optJSONObject(0) ?: return weatherInfo.append("No valid day data available.")
+                    .toString()
+
+            val date = dayData.optString("datetime", "Unknown date")
+            val tempMax = dayData.optDouble("tempmax", Double.NaN)
+            val tempMin = dayData.optDouble("tempmin", Double.NaN)
+            val currentTemp = dayData.optDouble("temp", Double.NaN)
+            val humidity = dayData.optDouble("humidity", Double.NaN)
+            val windSpeed = dayData.optDouble("windspeed", Double.NaN)
+            val pressure = dayData.optDouble("pressure", Double.NaN)
+            val conditions = dayData.optString("conditions", "Unknown conditions")
+            val sunrise = dayData.optString("sunrise", "Unknown sunrise time")
+            val sunset = dayData.optString("sunset", "Unknown sunset time")
 
             weatherInfo.append("Weather for $date:\n")
-            weatherInfo.append("Max Temp: $tempMax°F\n")
-            weatherInfo.append("Min Temp: $tempMin°F\n")
-            weatherInfo.append("Current Temp: $currentTemp°F\n")
-            weatherInfo.append("Humidity: $humidity%\n")
-            weatherInfo.append("Wind Speed: $windSpeed mph\n")
-            weatherInfo.append("Pressure: $pressure hPa\n")
+            weatherInfo.append("Max Temp: ${tempMax.ifNaN("N/A")}°F\n")
+            weatherInfo.append("Min Temp: ${tempMin.ifNaN("N/A")}°F\n")
+            weatherInfo.append("Current Temp: ${currentTemp.ifNaN("N/A")}°F\n")
+            weatherInfo.append("Humidity: ${humidity.ifNaN("N/A")}%\n")
+            weatherInfo.append("Wind Speed: ${windSpeed.ifNaN("N/A")} mph\n")
+            weatherInfo.append("Pressure: ${pressure.ifNaN("N/A")} hPa\n")
             weatherInfo.append("Conditions: $conditions\n")
             weatherInfo.append("Sunrise: $sunrise\n")
             weatherInfo.append("Sunset: $sunset")
         }
 
         return weatherInfo.toString()
+    }
+
+    // Extension function to handle Double.NaN more cleanly
+    private fun Double.ifNaN(defaultValue: String): String {
+        return if (this.isNaN()) defaultValue else this.toString()
     }
 }
