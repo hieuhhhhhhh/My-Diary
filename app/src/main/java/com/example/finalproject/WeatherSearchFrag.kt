@@ -17,6 +17,7 @@ class WeatherSearchFrag : Fragment(R.layout.fragment_weather_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Btn 6:
         val goToActiButton: Button = view.findViewById(R.id.button4)
         goToActiButton.setOnClickListener {
             val intent = Intent(requireContext(), WeatherActi::class.java)
@@ -27,6 +28,15 @@ class WeatherSearchFrag : Fragment(R.layout.fragment_weather_search) {
             }
 
             startActivity(intent)
+        }
+
+        // Get reference to the button (button7)
+        val button7 = view.findViewById<Button>(R.id.button7)
+
+        // Set OnClickListener to navigate to DraftActi
+        button7.setOnClickListener {
+            // Start DraftActi activity
+            startActivity(Intent(requireContext(), DraftActi::class.java))
         }
 
         // Initialize the TextView to show selected date

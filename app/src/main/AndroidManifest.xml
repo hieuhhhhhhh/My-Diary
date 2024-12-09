@@ -17,6 +17,9 @@
         android:theme="@style/Base.Theme.FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".DraftActi"
+            android:exported="false" />
+        <activity
             android:name=".WeatherActi"
             android:exported="false" />
         <activity
