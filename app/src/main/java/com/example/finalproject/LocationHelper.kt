@@ -22,12 +22,16 @@ class LocationHelper(private val activity: AppCompatActivity) {
         const val LOCATION_PERMISSION_REQUEST_CODE = 100
     }
 
-    fun getLocation(callback: (String) -> Unit) {
+    // Update callback to return success status
+    fun getLocation(callback: (result: String, success: Boolean) -> Unit) {
         if (checkLocationPermission()) {
             if (isLocationServiceEnabled()) {
                 getLastLocation(callback)
             } else {
-                callback("Location services are disabled. Please turn them on then try again")
+                callback(
+                    "Location services are disabled. Please turn them on then try again",
+                    false
+                )
                 promptEnableLocationService()
             }
         } else {
@@ -56,19 +60,19 @@ class LocationHelper(private val activity: AppCompatActivity) {
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
-    private fun getLastLocation(callback: (String) -> Unit) {
+    private fun getLastLocation(callback: (result: String, success: Boolean) -> Unit) {
         if (checkLocationPermission()) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     val lat = location.latitude
                     val long = location.longitude
-                    callback("$lat, $long")
+                    callback("$lat, $long", true) // Success case
                 } else {
-                    callback("Unable to get location")
+                    callback("Unable to get location", false) // Failure case
                 }
             }
         } else {
-            callback("Location permission not granted")
+            callback("Location permission not granted", false) // Failure case
         }
     }
 
@@ -80,18 +84,22 @@ class LocationHelper(private val activity: AppCompatActivity) {
     fun onRequestPermissionsResult(
         requestCode: Int,
         grantResults: IntArray,
-        callback: (String) -> Unit
+        callback: (result: String, success: Boolean) -> Unit
     ) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isLocationServiceEnabled()) {
                     getLastLocation(callback)
                 } else {
-                    callback("Location services are disabled. Please turn them on then try again.")
+                    callback(
+                        "Location services are disabled. Please turn them on then try again.",
+                        false
+                    )
                     promptEnableLocationService()
+
                 }
             } else {
-                callback("Location permission not granted")
+                callback("Location permission not granted", false)
             }
         }
     }
